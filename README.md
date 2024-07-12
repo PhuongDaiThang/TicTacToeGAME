@@ -48,6 +48,6 @@
 
 ## Tác giả
 
-- Tên: PDT
-- GitHub: [Your GitHub Profile]([https://github.com/yourusername](https://github.com/PhuongDaiThang))
+- Tên: Phuong Dai Thang
+- GitHub:https://github.com/PhuongDaiThang
 
