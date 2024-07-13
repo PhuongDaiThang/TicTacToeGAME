@@ -12,7 +12,6 @@ public class Game {
     private JButton[][] buttons;
     private JLabel statusLabel;
     private JLabel scoreLabel;
-    private Views views;
     private String player1Name;
     private String player2Name;
     private int gameCount;
@@ -53,7 +52,6 @@ public class Game {
                             updateStatusLabel();
                             if (checkForWin(currentPlayer.getSymbol())) {
                                 showWinMessage(currentPlayer.getSymbol());
-                                views.updateScore(currentPlayer == playerX ? 1 : 2);
                                 resetGame();
                             } else if (checkForDraw()) {
                                 JOptionPane.showMessageDialog(frame, "It's a draw!");
@@ -77,11 +75,26 @@ public class Game {
         scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
-        views = new Views(scoreLabel, player1Name, player2Name);
+        JPanel labelPanel = new JPanel(new GridLayout(2, 1));
+        labelPanel.add(statusLabel);
+        labelPanel.add(scoreLabel);
+
+        JButton finishButton = new JButton("Finish");
+        finishButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int option = JOptionPane.showConfirmDialog(frame,
+                        "Are you sure you want to finish the game?", "Confirm Finish", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(frame, "Game finished. Thanks for playing!");
+                    System.exit(0);
+                }
+            }
+        });
 
         frame.add(panel, BorderLayout.CENTER);
-        frame.add(statusLabel, BorderLayout.SOUTH);
-        frame.add(scoreLabel, BorderLayout.NORTH);
+        frame.add(labelPanel, BorderLayout.NORTH);
+        frame.add(finishButton, BorderLayout.SOUTH);
 
         frame.setVisible(true);
 
@@ -175,3 +188,4 @@ public class Game {
         SwingUtilities.invokeLater(() -> new Game());
     }
 }
+
