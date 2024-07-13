@@ -11,6 +11,7 @@
 - Người chơi nhập tên của mình khi bắt đầu trò chơi.
 - Hiển thị tỷ số người chơi 1- người chơi 2.
 - Hiển thị thông báo khi có người chơi chiến thắng hoặc hòa.
+- Nút Finish để kết thúc trò chơi và đặt lại bàn cờ.
 - Giao diện đơn giản và thân thiện với người dùng.
 
 ## Cài đặt và chạy
