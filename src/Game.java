@@ -11,19 +11,28 @@ public class Game {
     private Player currentPlayer;
     private JButton[][] buttons;
     private JLabel statusLabel;
+    private JLabel scoreLabel;
+    private Views views;
+    private String player1Name;
+    private String player2Name;
+    private int gameCount;
 
     public Game() {
         board = new Board();
         playerX = new Player('X');
         playerO = new Player('O');
-        currentPlayer = playerX; // Người chơi X bắt đầu trước
+        gameCount = 0;
+
+        player1Name = JOptionPane.showInputDialog("Enter name for Player 1:");
+        player2Name = JOptionPane.showInputDialog("Enter name for Player 2:");
 
         JFrame frame = new JFrame("Tic Tac Toe");
-        frame.setSize(300, 300);
+        frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 3));
+        panel.setBackground(new Color(200, 200, 255));
 
         buttons = new JButton[3][3];
         for (int i = 0; i < 3; i++) {
@@ -31,6 +40,9 @@ public class Game {
                 final int row = i;
                 final int col = j;
                 buttons[i][j] = new JButton();
+                buttons[i][j].setFont(new Font("Arial", Font.BOLD, 40));
+                buttons[i][j].setBackground(Color.WHITE);
+                buttons[i][j].setForeground(Color.BLACK);
                 buttons[i][j].setText(" ");
                 buttons[i][j].addActionListener(new ActionListener() {
                     @Override
@@ -41,6 +53,7 @@ public class Game {
                             updateStatusLabel();
                             if (checkForWin(currentPlayer.getSymbol())) {
                                 showWinMessage(currentPlayer.getSymbol());
+                                views.updateScore(currentPlayer == playerX ? 1 : 2);
                                 resetGame();
                             } else if (checkForDraw()) {
                                 JOptionPane.showMessageDialog(frame, "It's a draw!");
@@ -56,22 +69,43 @@ public class Game {
             }
         }
 
-        statusLabel = new JLabel("Player " + currentPlayer.getSymbol() + "'s turn");
+        statusLabel = new JLabel();
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        statusLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        scoreLabel = new JLabel();
+        scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        views = new Views(scoreLabel, player1Name, player2Name);
 
         frame.add(panel, BorderLayout.CENTER);
         frame.add(statusLabel, BorderLayout.SOUTH);
+        frame.add(scoreLabel, BorderLayout.NORTH);
 
         frame.setVisible(true);
+
+        showPlayerSymbols();
+        resetGame();
+    }
+
+    private void showPlayerSymbols() {
+        JOptionPane.showMessageDialog(null, player1Name + " is X and " + player2Name + " is O.");
     }
 
     private void updateButton(JButton button, char symbol) {
         button.setText(String.valueOf(symbol));
         button.setEnabled(false); // Disable button sau khi được click
+        if (symbol == 'X') {
+            button.setForeground(Color.RED);
+        } else {
+            button.setForeground(Color.BLUE);
+        }
     }
 
     private void updateStatusLabel() {
-        statusLabel.setText("Player " + currentPlayer.getSymbol() + "'s turn");
+        String currentPlayerName = (currentPlayer == playerX) ? player1Name : player2Name;
+        statusLabel.setText(currentPlayerName + "'s turn (" + currentPlayer.getSymbol() + ")");
     }
 
     private boolean checkForWin(char symbol) {
@@ -119,14 +153,22 @@ public class Game {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j].setText(" ");
                 buttons[i][j].setEnabled(true);
+                buttons[i][j].setBackground(Color.WHITE); // Reset màu nền của nút
             }
         }
-        currentPlayer = playerX; // Người chơi X bắt đầu trước
-        statusLabel.setText("Player " + currentPlayer.getSymbol() + "'s turn");
+        // Luân phiên người chơi bắt đầu
+        if (gameCount % 2 == 0) {
+            currentPlayer = playerX; // Lần đầu và lần thứ hai, người chơi X bắt đầu
+        } else {
+            currentPlayer = playerO; // Lần thứ hai, người chơi O bắt đầu
+        }
+        gameCount++;
+        updateStatusLabel();
     }
 
     private void showWinMessage(char playerSymbol) {
-        JOptionPane.showMessageDialog(null, "Player " + playerSymbol + " wins! Chúc mừng!");
+        String winnerName = (playerSymbol == playerX.getSymbol()) ? player1Name : player2Name;
+        JOptionPane.showMessageDialog(null, winnerName + " wins! Chúc mừng!");
     }
 
     public static void main(String[] args) {
