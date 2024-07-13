@@ -5,6 +5,19 @@
 
 Đây là một trò chơi Tic Tac Toe đơn giản được viết bằng Java và JavaSwing. Trò chơi cho phép hai người chơi lần lượt điền ký tự 'X' và 'O' vào các ô trống của bàn cờ 3x3. Trò chơi kiểm tra và thông báo người chiến thắng hoặc hòa sau mỗi lượt chơi.
 
+## Công nghệ sử dụng
+
+Trò chơi Tic Tac Toe được viết bằng ngôn ngữ lập trình Java và sử dụng thư viện đồ họa JavaSwing để xây dựng giao diện người dùng. Các tính năng chính của trò chơi được triển khai qua các lớp và phương thức trong Java để quản lý trạng thái của bàn cờ, xử lý luồng chơi, và tương tác với người dùng thông qua các thành phần như JButton và JLabel.
+
+### Chi tiết công nghệ
+
+- **Java**: Ngôn ngữ lập trình chính để phát triển toàn bộ trò chơi.
+- **JavaSwing**: Thư viện đồ họa được sử dụng để tạo giao diện người dùng đơn giản và nhanh chóng.
+- **Git**: Sử dụng để quản lý mã nguồn và phiên bản của dự án trên GitHub.
+- **IDE**: Được thiết lập và chạy dự án bằng IntelliJ IDEA để phát triển và kiểm tra trò chơi.
+
+Đây là một giải pháp đơn giản và hiệu quả để xây dựng một trò chơi nhỏ và thực hành các kỹ năng lập trình Java cơ bản.
+
 ## Các tính năng
 
 - Luân phiên lượt bắt đầu giữa hai người chơi.
