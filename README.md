@@ -18,7 +18,7 @@
 1. Clone repo này về máy tính của bạn.
 
     ```
-    git clone https://github.com/your-username/tic-tac-toe.git
+    git clone https://github.com/PhuongDaiThang/TicTacToeGAME.git
     ```
 
 2. Mở dự án bằng IDE IntelliJ IDEA hoặc bất kỳ IDE Java nào.
