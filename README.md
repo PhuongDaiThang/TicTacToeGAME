@@ -1,7 +1,5 @@
 # Tic Tac Toe Game
 
-![Demo](![image](https://github.com/user-attachments/assets/8a3080ec-fb5b-4b33-a03d-89434c2921d2)
-)
 
 ## Giới thiệu
 
