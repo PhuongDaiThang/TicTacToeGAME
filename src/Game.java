@@ -12,18 +12,28 @@ public class Game {
     private JButton[][] buttons;
     private JLabel statusLabel;
     private JLabel scoreLabel;
+    private Views views;
     private String player1Name;
     private String player2Name;
     private int gameCount;
+    private boolean playWithBot;
 
-    public Game() {
+    public Game(boolean playWithBot) {
+        this.playWithBot = playWithBot;
         board = new Board();
         playerX = new Player('X');
-        playerO = new Player('O');
-        gameCount = 0;
 
-        player1Name = JOptionPane.showInputDialog("Enter name for Player 1:");
-        player2Name = JOptionPane.showInputDialog("Enter name for Player 2:");
+        if (playWithBot) {
+            player1Name = JOptionPane.showInputDialog("Enter name for Player 1:");
+            player2Name = "Bot";
+            playerO = new Bot('O');
+        } else {
+            player1Name = JOptionPane.showInputDialog("Enter name for Player 1:");
+            player2Name = JOptionPane.showInputDialog("Enter name for Player 2:");
+            playerO = new Player('O');
+        }
+
+        gameCount = 0;
 
         JFrame frame = new JFrame("Tic Tac Toe");
         frame.setSize(400, 400);
@@ -52,12 +62,17 @@ public class Game {
                             updateStatusLabel();
                             if (checkForWin(currentPlayer.getSymbol())) {
                                 showWinMessage(currentPlayer.getSymbol());
+                                views.updateScore(currentPlayer == playerX ? 1 : 2);
                                 resetGame();
                             } else if (checkForDraw()) {
                                 JOptionPane.showMessageDialog(frame, "It's a draw!");
                                 resetGame();
+                            } else {
+                                switchPlayer();
+                                if (playWithBot && currentPlayer instanceof Bot) {
+                                    botMove();
+                                }
                             }
-                            currentPlayer = (currentPlayer == playerX) ? playerO : playerX; // Chuyển lượt
                         } else {
                             JOptionPane.showMessageDialog(frame, "Invalid move. Please try again.");
                         }
@@ -67,6 +82,15 @@ public class Game {
             }
         }
 
+        JButton finishButton = new JButton("Finish");
+        finishButton.setFont(new Font("Arial", Font.BOLD, 20));
+        finishButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+
         statusLabel = new JLabel();
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
         statusLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -75,31 +99,40 @@ public class Game {
         scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
-        JPanel labelPanel = new JPanel(new GridLayout(2, 1));
-        labelPanel.add(statusLabel);
-        labelPanel.add(scoreLabel);
-
-        JButton finishButton = new JButton("Finish");
-        finishButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int option = JOptionPane.showConfirmDialog(frame,
-                        "Are you sure you want to finish the game?", "Confirm Finish", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(frame, "Game finished. Thanks for playing!");
-                    System.exit(0);
-                }
-            }
-        });
+        views = new Views(scoreLabel, player1Name, player2Name);
 
         frame.add(panel, BorderLayout.CENTER);
-        frame.add(labelPanel, BorderLayout.NORTH);
-        frame.add(finishButton, BorderLayout.SOUTH);
+        frame.add(statusLabel, BorderLayout.SOUTH);
+        frame.add(scoreLabel, BorderLayout.NORTH);
+        frame.add(finishButton, BorderLayout.EAST);
 
         frame.setVisible(true);
 
         showPlayerSymbols();
         resetGame();
+    }
+
+    private void switchPlayer() {
+        currentPlayer = (currentPlayer == playerX) ? playerO : playerX;
+        updateStatusLabel();
+    }
+
+    private void botMove() {
+        int[] move = ((Bot) playerO).getNextMove(board);
+        if (move != null) {
+            board.setCell(move[0], move[1], playerO.getSymbol());
+            updateButton(buttons[move[0]][move[1]], playerO.getSymbol());
+            updateStatusLabel();
+            if (checkForWin(playerO.getSymbol())) {
+                showWinMessage(playerO.getSymbol());
+                views.updateScore(2);
+                resetGame();
+            } else if (checkForDraw()) {
+                JOptionPane.showMessageDialog(null, "It's a draw!");
+                resetGame();
+            }
+            switchPlayer();
+        }
     }
 
     private void showPlayerSymbols() {
@@ -108,7 +141,7 @@ public class Game {
 
     private void updateButton(JButton button, char symbol) {
         button.setText(String.valueOf(symbol));
-        button.setEnabled(false); // Disable button sau khi được click
+        button.setEnabled(false); // Disable button after clicked
         if (symbol == 'X') {
             button.setForeground(Color.RED);
         } else {
@@ -124,40 +157,40 @@ public class Game {
     private boolean checkForWin(char symbol) {
         char[][] gameBoard = board.getBoard();
 
-        // Kiểm tra các hàng và cột
+        // Check rows and columns
         for (int i = 0; i < 3; i++) {
             if (gameBoard[i][0] == symbol && gameBoard[i][1] == symbol && gameBoard[i][2] == symbol) {
-                return true; // Có hàng thắng
+                return true; // Row win
             }
             if (gameBoard[0][i] == symbol && gameBoard[1][i] == symbol && gameBoard[2][i] == symbol) {
-                return true; // Có cột thắng
+                return true; // Column win
             }
         }
 
-        // Kiểm tra đường chéo chính
+        // Check main diagonal
         if (gameBoard[0][0] == symbol && gameBoard[1][1] == symbol && gameBoard[2][2] == symbol) {
-            return true; // Có đường chéo chính thắng
+            return true; // Main diagonal win
         }
 
-        // Kiểm tra đường chéo phụ
+        // Check anti-diagonal
         if (gameBoard[0][2] == symbol && gameBoard[1][1] == symbol && gameBoard[2][0] == symbol) {
-            return true; // Có đường chéo phụ thắng
+            return true; // Anti-diagonal win
         }
 
-        return false; // Không có ai thắng
+        return false; // No win
     }
 
     private boolean checkForDraw() {
         char[][] gameBoard = board.getBoard();
-        // Kiểm tra xem có ô nào trống không
+        // Check if there's any empty cell
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (gameBoard[i][j] == ' ') {
-                    return false; // Còn ô trống, chưa hòa
+                    return false; // Still empty cells, not a draw
                 }
             }
         }
-        return true; // Hết ô trống, hòa
+        return true; // No empty cells, it's a draw
     }
 
     private void resetGame() {
@@ -177,15 +210,16 @@ public class Game {
         }
         gameCount++;
         updateStatusLabel();
+
+        // Nếu bot đánh trước và đang ở chế độ chơi với bot, cho bot đánh trước
+        if (playWithBot && currentPlayer instanceof Bot) {
+            botMove();
+        }
     }
 
     private void showWinMessage(char playerSymbol) {
         String winnerName = (playerSymbol == playerX.getSymbol()) ? player1Name : player2Name;
         JOptionPane.showMessageDialog(null, winnerName + " wins! Chúc mừng!");
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Game());
     }
 }
 
