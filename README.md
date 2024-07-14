@@ -6,7 +6,17 @@
 
 ## Công nghệ sử dụng
 
-Trò chơi Tic Tac Toe được viết bằng ngôn ngữ lập trình Java và sử dụng thư viện đồ họa JavaSwing để xây dựng giao diện người dùng. Các tính năng chính của trò chơi được triển khai qua các lớp và phương thức trong Java để quản lý trạng thái của bàn cờ, xử lý luồng chơi, và tương tác với người dùng thông qua các thành phần như JButton và JLabel.
+Trò chơi Tic Tac Toe được xây dựng bằng ngôn ngữ lập trình Java và sử dụng thư viện đồ họa JavaSwing để xây dựng giao diện người dùng. JavaSwing là một phần của Java Foundation Classes (JFC) được cung cấp sẵn trong Java Development Kit (JDK). Các lý do chính để sử dụng Swing trong dự án bao gồm:
+
+- **Đơn giản và dễ sử dụng**: Swing cung cấp các thành phần giao diện người dùng (GUI components) như JButton, JLabel, JPanel, ... để thiết kế giao diện người dùng một cách dễ dàng và linh hoạt.
+
+- **Tích hợp tốt với Java**: Với việc là một phần của JDK, Swing hỗ trợ nhiều tính năng và chức năng mạnh mẽ, cho phép bạn tạo ra các ứng dụng desktop đáng tin cậy và hiệu quả.
+
+- **Độ phong phú của các thành phần giao diện**: Swing cung cấp các thành phần giao diện phong phú như các nút, nhãn, bảng, ô nhập liệu và cả các bảng điều khiển phức tạp hơn như cây thư mục và tab.
+
+- **Cộng đồng lớn và tài liệu phong phú**: Swing là một công nghệ lâu đời trong lập trình Java, có sự hỗ trợ mạnh mẽ từ cộng đồng và nhiều tài liệu, ví dụ và giải pháp thực tế sẵn có để giúp bạn giải quyết các thách thức trong phát triển.
+
+Sử dụng Swing cho dự án Tic Tac Toe giúp cho việc phát triển giao diện người dùng trở nên dễ dàng và hiệu quả, đồng thời giúp tăng tính tương thích và linh hoạt của ứng dụng với nhiều nền tảng khác nhau mà không cần thay đổi nhiều mã nguồn.
 
 ### Chi tiết công nghệ
 
