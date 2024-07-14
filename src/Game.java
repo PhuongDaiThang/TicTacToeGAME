@@ -24,7 +24,7 @@ public class Game {
         playerX = new Player('X');
 
         if (playWithBot) {
-            player1Name = JOptionPane.showInputDialog("Enter name for Player 1:");
+            player1Name = JOptionPane.showInputDialog("Enter your name:");
             player2Name = "Bot";
             playerO = new Bot('O');
         } else {
