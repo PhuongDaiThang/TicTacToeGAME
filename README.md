@@ -46,11 +46,30 @@ Lớp `Game` là lớp chính điều khiển luồng chính của trò chơi Ti
 
 Lớp `Views` quản lý giao diện người dùng của trò chơi, bao gồm hiển thị thông tin người chơi và điểm số.
 
+### ScoreBoard
+
+Lớp `ScoreBoard` lưu trữ và quản lý điểm số của hai người chơi trong trò chơi. Nó cập nhật và hiển thị tỷ số người chơi 1 và người chơi 2 sau mỗi trận đấu.
+
+### Move
+
+Lớp `Move` biểu diễn một nước đi trong trò chơi Tic Tac Toe. Nó bao gồm thông tin về vị trí được chọn trên bàn cờ và người chơi thực hiện nước đi đó.
+
+### Bot
+
+Lớp `Bot` đại diện cho một bot trong trò chơi Tic Tac Toe. Bot được thiết kế để thực hiện nước đi thông minh dựa trên trạng thái hiện tại của bàn cờ. Cụ thể, bot có thể có các chiến lược như sau:
+
+- **Chiến lược đơn giản**: Bot chọn ngẫu nhiên một ô trống trên bàn cờ để đánh, đảm bảo tính ngẫu nhiên trong lựa chọn.
+
+- **Chiến lược cải tiến**: Bot sử dụng thuật toán Minimax để đánh giá các nước đi tiếp theo và chọn nước đi tối ưu nhất dựa trên đánh giá này. Minimax giúp bot đánh một cách "tối ưu" trong trò chơi Tic Tac Toe, tối thiểu hóa mức độ rủi ro và tối đa hóa khả năng chiến thắng.
+
+Lớp `Bot` cũng có khả năng điều chỉnh mức độ khó của bot, từ dễ đến khó, dựa trên thuật toán và chiến lược sử dụng.
+
 ### GameLauncher
 
 Lớp `GameLauncher` là lớp để chạy trò chơi. Nó khởi tạo và hiển thị giao diện người dùng chính của trò chơi, cho phép người chơi chọn chế độ chơi với bạn bè hoặc với bot.
 
 Mỗi lớp trong dự án có trách nhiệm cụ thể và được thiết kế để tối ưu hóa quản lý trạng thái và tương tác người dùng trong trò chơi Tic Tac Toe.
+
 
 ## Cài đặt và chạy
 
